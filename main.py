@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from customtkinter import *
 import mysql.connector
 from mysql.connector import Error
 
@@ -44,15 +45,21 @@ class PadroesApp:
             cursor.close()
 
     def criar_interface(self):
-        self.nova_sequencia_entry = tk.Entry(self.root)
-        self.nova_sequencia_entry.pack()
+        self.root.grid_columnconfigure(0, weight=1)
+        self.root.grid_rowconfigure(1, weight=1)
+
+        # Defina a largura (width) desejada aqui (80 pixels)
+        width = 80
+
+        self.nova_sequencia_entry = CTkEntry(self.root, width=width)
+        self.nova_sequencia_entry.pack(pady=20)
         self.nova_sequencia_entry.bind('<Return>', self.on_enter_press)
 
-        adicionar_botao = tk.Button(self.root, text="Adicionar Padrão", command=self.adicionar_sequencia)
-        adicionar_botao.pack()
+        adicionar_botao = CTkButton(self.root, text="Adicionar Padrão", command=self.adicionar_sequencia, width=width)
+        adicionar_botao.pack(pady=20)
 
-        self.lista_padroes = tk.Listbox(self.root)
-        self.lista_padroes.pack()
+        self.lista_padroes = tk.Listbox(self.root, width=width, bg="#262626", fg="white", font="Arial", highlightcolor="#3b0487", highlightbackground="#3b0487", selectbackground="#3b0487")
+        self.lista_padroes.pack(pady=20, padx=80)
 
         self.root.bind('<space>', self.on_space_press)
 
@@ -95,6 +102,7 @@ class PadroesApp:
         self.adicionar_sequencia()
 
 if __name__ == "__main__":
-    root = tk.Tk()
+    root = CTk()
     app = PadroesApp(root)
+    root.geometry("600x400")
     root.mainloop()
